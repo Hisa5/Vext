@@ -11,7 +11,7 @@ URL = "https://payload.vextapp.com/hook/Z4E7GGV354/catch/ASSISTANT"
 st.set_page_config(layout="wide")  # Establecer el layout de la página en ancho completo
 
 # Colocar el logo en la parte superior izquierda
-st.image("LOGOTIPO TERRAGENE Rev.1_Fondo Transparente-E.png", width=300)  # Ajusta el ancho según tus necesidades (doble del tamaño original de 150)
+st.image(r"C:\Users\Hisashi Konno\Documents\IA\LLM\VEXT\demo_streamlit\LOGOTIPO TERRAGENE Rev.1_Fondo Transparente-E.png", width=300)  # Ajusta el ancho según tus necesidades (doble del tamaño original de 150)
 st.title("Terragene Assistant")
 
 # Inicializar el estado de la conversación
