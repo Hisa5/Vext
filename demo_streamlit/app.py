@@ -1,11 +1,16 @@
 import streamlit as st
 import requests
 
+
+
+
+API_KEY = "y7jjmBBP.pglw383yahVorfRBwK6Zo323dJ1lpnjN"
+URL = "https://payload.vextapp.com/hook/S590KL2AS8/catch/T-Assistant"
 # Clave de la API
-API_KEY = "t3GtXbmk.bqLkYqNCB8dO9CnKHCbIfG6WcUXElTGb"
+#API_KEY = "t3GtXbmk.bqLkYqNCB8dO9CnKHCbIfG6WcUXElTGb"
 
 # URL de la API
-URL = "https://payload.vextapp.com/hook/Z4E7GGV354/catch/ASSISTANT"
+#URL = "https://payload.vextapp.com/hook/Z4E7GGV354/catch/ASSISTANT"
 
 # Configuración de la página de Streamlit
 st.set_page_config(layout="wide")  # Establecer el layout de la página en ancho completo
