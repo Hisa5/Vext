@@ -1,18 +1,27 @@
-# app.py
-
 import streamlit as st
 import requests
 import subprocess
 import sys
+import nest_asyncio
 from telegram import Update
 from telegram.ext import Application, MessageHandler, filters, CallbackContext
+
+# Aplicar nest_asyncio
+nest_asyncio.apply()
+
+# Configuración de la página de Streamlit
+st.set_page_config(layout="wide")  # Establecer el layout de la página en ancho completo
 
 # Clave de la API y URL
 API_KEY = "y7jjmBBP.pglw383yahVorfRBwK6Zo323dJ1lpnjN"
 URL = "https://payload.vextapp.com/hook/S590KL2AS8/catch/T-Assistant"
 
-# Configuración de la página de Streamlit
-st.set_page_config(layout="wide")  # Establecer el layout de la página en ancho completo
+# Ejecutar el segundo script (Telegram bot) en segundo plano
+def run_telegram_bot():
+    subprocess.Popen([sys.executable, "Telegram/app.py"])
+
+# Ejecutar el bot de Telegram al iniciar la aplicación
+run_telegram_bot()
 
 # Colocar el logo en la parte superior izquierda
 st.image("demo_streamlit/LOGOTIPO TERRAGENE Rev.1_Fondo Transparente-E.png", width=300)  # Ajusta el ancho según tus necesidades
@@ -58,13 +67,6 @@ st.text_input("Tú:", key="user_input")
 if st.button("Enviar"):
     send_message()
     st.experimental_rerun()
-
-# Ejecutar el segundo script (Telegram bot) en segundo plano
-def run_telegram_bot():
-    subprocess.Popen([sys.executable, "Telegram/app.py"])
-
-# Ejecutar el bot de Telegram al iniciar la aplicación
-run_telegram_bot()
 
 # Código del bot de Telegram
 def telegram_bot():
