@@ -4,12 +4,17 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, MessageHandler, filters
 from dotenv import load_dotenv
 
-# Cargar variables de entorno desde el archivo .env
-load_dotenv()
+# Especificar la ruta del archivo .env
+dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+load_dotenv(dotenv_path)
 
 API_KEY = os.getenv("API_KEY")
 URL = os.getenv("API_URL")
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")  # Reemplaza esto con tu token real
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+
+# Verificar que las variables de entorno se han cargado correctamente
+if not API_KEY or not URL or not TELEGRAM_TOKEN:
+    raise ValueError("Asegúrate de que todas las variables de entorno están definidas en el archivo .env")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Hola! Soy tu asistente de Terragene. ¿Cómo puedo ayudarte hoy?")
