@@ -1,5 +1,3 @@
-# app.py
-
 import streamlit as st
 import requests
 import subprocess
@@ -18,7 +16,7 @@ st.set_page_config(layout="wide")
 
 # Ejecutar el bot de Telegram al iniciar la aplicación
 def run_telegram_bot():
-    subprocess.Popen(["python", "Telegram/telegram_bot.py"])
+    subprocess.Popen([sys.executable, "Telegram/telegram_bot.py"])
 
 run_telegram_bot()
 
@@ -47,7 +45,7 @@ def send_message():
         except requests.exceptions.RequestException as e:
             st.session_state.messages.append(f"Error: {e}")
         
-        st.session_state.user_input = ""
+        st.session_state["user_input"] = ""
 
 # Mostrar los mensajes en el chat
 for message in st.session_state.messages:
