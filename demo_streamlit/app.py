@@ -49,6 +49,7 @@ def send_message():
         except requests.exceptions.RequestException as e:
             st.session_state.messages.append(f"Error: {e}")
         
+        # En lugar de modificar directamente el estado, reseteamos el campo usando el texto
         st.session_state.user_input = ""
 
 # Mostrar los mensajes en el chat
