@@ -1,8 +1,9 @@
-import requests
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
+# Telegram/telegram_bot.py
 
-# Clave API y URL de la API
+import asyncio
+from telegram import Update
+from telegram.ext import Application, MessageHandler, filters, CallbackContext
+
 API_KEY = "y7jjmBBP.pglw383yahVorfRBwK6Zo323dJ1lpnjN"
 API_URL = "https://payload.vextapp.com/hook/S590KL2AS8/catch/T-Assistant"
 
@@ -30,16 +31,9 @@ async def make_api_request(payload: str) -> str:
         return f'Error al contactar la API: {e}'
 
 def main():
-    # Coloca aquí tu token
     token = '7294271445:AAFQcFGbsEUHGKtjWNhk7HjQEiPnHIwdm94'
-
-    # Crea el Application y pásale tu token
     application = Application.builder().token(token).build()
-
-    # Enlaza todos los mensajes de texto a la función handle_message
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-
-    # Inicia el bot
     application.run_polling()
 
 if __name__ == '__main__':
