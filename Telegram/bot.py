@@ -1,45 +1,41 @@
+import os
 import requests
 from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, MessageHandler, filters
 
-# Clave API y URL de la API
-API_KEY = "y7jjmBBP.pglw383yahVorfRBwK6Zo323dJ1lpnjN"
-API_URL = "https://payload.vextapp.com/hook/S590KL2AS8/catch/T-Assistant"
+API_KEY = os.getenv("API_KEY")
+URL = os.getenv("API_URL")
 
-# Función para manejar los mensajes y hacer la solicitud a la API
-async def handle_message(update: Update, context: CallbackContext) -> None:
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("Hola! Soy tu asistente de Terragene. ¿Cómo puedo ayudarte hoy?")
+
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_message = update.message.text
-    response_text = await make_api_request(user_message)
-    await update.message.reply_text(response_text)
-
-# Función para hacer la solicitud a la API
-async def make_api_request(payload: str) -> str:
-    headers = {
-        'Content-Type': 'application/json',
-        'Apikey': f"Api-Key {API_KEY}"
-    }
-    data = {
-        'payload': payload
-    }
+    headers = {"Content-Type": "application/json", "Apikey": f"Api-Key {API_KEY}"}
+    data = {"payload": user_message}
+    
     try:
-        response = requests.post(API_URL, headers=headers, json=data)
+        response = requests.post(URL, headers=headers, json=data)
         response.raise_for_status()
         result = response.json()
-        return result.get('text', 'Sin respuesta de la API')
+        response_text = result.get('text', 'Sin respuesta')
+        
+        if not response_text:
+            response_text = "Lo siento, no tengo una respuesta en este momento."
+        
+        await update.message.reply_text(response_text)
     except requests.exceptions.RequestException as e:
-        return f'Error al contactar la API: {e}'
+        await update.message.reply_text(f"Error: {e}")
 
-def main():
-    # Coloca aquí tu token
-    token = '7294271445:AAFQcFGbsEUHGKtjWNhk7HjQEiPnHIwdm94'
+def main() -> None:
+    application = ApplicationBuilder().token("YOUR_TELEGRAM_BOT_TOKEN").build()
+    
+    start_handler = CommandHandler('start', start)
+    message_handler = MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message)
 
-    # Crea el Application y pásale tu token
-    application = Application.builder().token(token).build()
-
-    # Enlaza todos los mensajes de texto a la función handle_message
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-
-    # Inicia el bot
+    application.add_handler(start_handler)
+    application.add_handler(message_handler)
+    
     application.run_polling()
 
 if __name__ == '__main__':
