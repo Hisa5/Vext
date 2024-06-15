@@ -5,21 +5,17 @@ from telegram.ext import Application, MessageHandler, filters, CallbackContext
 API_KEY = "y7jjmBBP.pglw383yahVorfRBwK6Zo323dJ1lpnjN"
 API_URL = "https://payload.vextapp.com/hook/S590KL2AS8/catch/T-Assistant"
 
-# Función para manejar los mensajes y hacer la solicitud a la API
 async def handle_message(update: Update, context: CallbackContext) -> None:
     user_message = update.message.text
     response_text = await make_api_request(user_message)
     await update.message.reply_text(response_text)
 
-# Función para hacer la solicitud a la API
 async def make_api_request(payload: str) -> str:
     headers = {
         'Content-Type': 'application/json',
         'Apikey': f"Api-Key {API_KEY}"
     }
-    data = {
-        'payload': payload
-    }
+    data = {'payload': payload}
     try:
         response = requests.post(API_URL, headers=headers, json=data)
         response.raise_for_status()

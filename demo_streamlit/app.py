@@ -16,7 +16,8 @@ st.set_page_config(layout="wide")
 
 # Ejecutar el bot de Telegram al iniciar la aplicación
 def run_telegram_bot():
-    subprocess.Popen([sys.executable, "Telegram/telegram_bot.py"])
+    script_path = "/mount/src/vext/Telegram/bot.py"
+    subprocess.Popen([sys.executable, script_path])
 
 run_telegram_bot()
 
@@ -49,15 +50,14 @@ def send_message():
         except requests.exceptions.RequestException as e:
             st.session_state.messages.append(f"Error: {e}")
         
-        # En lugar de modificar directamente el estado, reseteamos el campo usando el texto
-        st.session_state.user_input = ""
+        st.session_state["user_input"] = ""
 
 # Mostrar los mensajes en el chat
 for message in st.session_state.messages:
     st.write(message)
 
 # Entrada de texto para el mensaje del usuario
-user_input = st.text_input("Tú:", key="user_input")
+st.text_input("Tú:", key="user_input")
 
 # Botón para enviar el mensaje
 if st.button("Enviar"):
