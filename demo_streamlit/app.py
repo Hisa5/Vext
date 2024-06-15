@@ -28,9 +28,13 @@ st.title("Terragene Assistant")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Inicializar el estado del input del usuario
+if "user_input" not in st.session_state:
+    st.session_state.user_input = ""
+
 # Función para manejar el envío del mensaje
 def send_message():
-    user_input = st.session_state.get("user_input", "")
+    user_input = st.session_state.user_input
     if user_input:
         st.session_state.messages.append(f"Tú: {user_input}")
         headers = {"Content-Type": "application/json", "Api-Key": API_KEY}
@@ -45,7 +49,7 @@ def send_message():
         except requests.exceptions.RequestException as e:
             st.session_state.messages.append(f"Error: {e}")
         
-        st.session_state["user_input"] = ""
+        st.session_state.user_input = ""
 
 # Mostrar los mensajes en el chat
 for message in st.session_state.messages:
