@@ -3,7 +3,13 @@
 import streamlit as st
 import requests
 import subprocess
+import sys
+import nest_asyncio
 
+# Aplicar nest_asyncio
+nest_asyncio.apply()
+
+# Clave de la API y URL
 API_KEY = "y7jjmBBP.pglw383yahVorfRBwK6Zo323dJ1lpnjN"
 URL = "https://payload.vextapp.com/hook/S590KL2AS8/catch/T-Assistant"
 
@@ -26,7 +32,7 @@ if "messages" not in st.session_state:
 
 # Función para manejar el envío del mensaje
 def send_message():
-    user_input = st.session_state.user_input
+    user_input = st.session_state.get("user_input", "")
     if user_input:
         st.session_state.messages.append(f"Tú: {user_input}")
         headers = {"Content-Type": "application/json", "Api-Key": API_KEY}
@@ -40,6 +46,7 @@ def send_message():
             st.session_state.messages.append(f"API: {api_response_text}")
         except requests.exceptions.RequestException as e:
             st.session_state.messages.append(f"Error: {e}")
+        
         st.session_state.user_input = ""
 
 # Mostrar los mensajes en el chat
@@ -47,7 +54,7 @@ for message in st.session_state.messages:
     st.write(message)
 
 # Entrada de texto para el mensaje del usuario
-st.text_input("Tú:", key="user_input")
+user_input = st.text_input("Tú:", key="user_input")
 
 # Botón para enviar el mensaje
 if st.button("Enviar"):
