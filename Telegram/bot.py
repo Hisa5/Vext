@@ -2,9 +2,14 @@ import os
 import requests
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, MessageHandler, filters
+from dotenv import load_dotenv
+
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
 URL = os.getenv("API_URL")
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")  # Reemplaza esto con tu token real
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Hola! Soy tu asistente de Terragene. ¿Cómo puedo ayudarte hoy?")
@@ -28,7 +33,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         await update.message.reply_text(f"Error: {e}")
 
 def main() -> None:
-    application = ApplicationBuilder().token("YOUR_TELEGRAM_BOT_TOKEN").build()
+    application = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
     
     start_handler = CommandHandler('start', start)
     message_handler = MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message)
